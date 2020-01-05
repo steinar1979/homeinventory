@@ -1,20 +1,142 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<app-user-profile></app-user-profile>
+<div *ngIf="auth.user$ | async; then authenticated else guest">
+    <!-- template will replace this div -->
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+<ng-template #authenticated>
+    <div *ngIf="auth.user$">
+      
+
+
+<p></p>
+<app-harryhandel></app-harryhandel>
+<mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Lyspærer
+                </mat-panel-title>
+                <mat-panel-description>
+                  
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+<div *ngFor = "let lyspaere of lyspaerer">
+
+<mat-card class="example-card">
+            <mat-card-header>
+              
+              <mat-card-title>   </mat-card-title>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <p>
+                        
+                        <img src="{{lyspaere.bildeurl}}" alt="Smiley face" height="10px" width="10px">
+                        <p>
+                            <div *ngIf=!edit>     
+                         {{lyspaere.Type}} {{lyspaere.teknologi}} {{lyspaere.watt}}W {{lyspaere.antall}}
+                        </div>
+              
+            
+            
+            </mat-card-content>
+           
+                     
+            <mat-card-actions>
+                      <div class="editbutton"  *ngIf=!edit>
+                          <button mat-button (click)="editFields(lyspaere.DocID)"><mat-icon color="warn">edit</mat-icon></button>
+                        </div>
+                        <div *ngIf=edit>
+                              
+                        
+                             <div *ngIf="checkDocID==lyspaere.DocID"> 
+                                <form class="example-form" [formGroup]="validateLyspaerer">
+                                            <mat-form-field>
+                                                        <input matInput formControlName="type" placeholder="Type lyspære" value="{{lyspaere.Type}}"> 
+                                                        
+                                            </mat-form-field>
+                                      
+                                            <mat-form-field>
+                                                        <input matInput formControlName="teknologi" placeholder="LED eller hallogen" value="{{lyspaere.teknologi}}" > 
+                                            </mat-form-field>
+                                            <br>
+                                            <mat-form-field>
+                                                        <input matInput formControlName="watt" id="watt" placeholder="Antall watt" value="{{lyspaere.watt}}"> 
+                                                        
+                                            </mat-form-field>
+                                            <br>
+                                            <mat-form-field>
+                                                        <input matInput formControlName="bildeurl" placeholder="URL til bilde" value="{{lyspaere.bildeurl}}"> 
+                                                        
+                                            </mat-form-field>
+                                            <br>
+                                            
+                                              <mat-label>Antall: {{lyspaere.antall}}
+                                                 
+                                              <button mat-button (click)="changeNumber(lyspaere.DocID,'remove',lyspaere.antall)"><mat-icon sizd="5">remove</mat-icon></button>
+                                              <button mat-button (click)="changeNumber(lyspaere.DocID,'add',lyspaere.antall)"><mat-icon>add</mat-icon></button>
+                                                   
+                                            </mat-label>
+                                          
+                                            <br>
+                                          <button type="submit" value="submit" mat-button (click)="editFields();updateLyspaere(lyspaere.DocID,lyspaere.Type, 
+                                          lyspaere.teknologi, lyspaere.watt, lyspaere.bildeurl)"><mat-icon>save</mat-icon></button>
+<!--                                           <button type="submit" value="submit" mat-button (click)="editFields();update2(lyspaere.DocID)"><mat-icon>save</mat-icon></button>
+ -->                                      
+                                </form>
+                                <p></p>
+                                
+                              </div>
+                              <div  *ngIf="checkDocID!=lyspaere.DocID"> 
+                                <button mat-button (click)="editFields()"><mat-icon >edit</mat-icon></button>
+                               
+                              </div>
+                              
+                          </div>    
+                      </mat-card-actions>
+          </mat-card>
+          <p>
+     
+   
+    
+
+</div>
+
+<p></p>
+<p></p>
+
+
+</mat-expansion-panel>
+</mat-accordion>
+<!-- <form class="example-form" [formGroup]="validateLyspaerer">
+            <mat-form-field>
+                        <input matInput formControlName="type" placeholder="Type lyspære"> 
+            
+             </mat-form-field>
+             <br>
+             <mat-form-field>
+                        <input matInput formControlName="teknologi" placeholder="LED eller hallogen"> 
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                        <input matInput formControlName="watt" placeholder="Antall watt"> 
+                        
+             </mat-form-field>
+            <br>
+            <mat-form-field>
+                        <input matInput formControlName="bildeurl" placeholder="URL til bilde"> 
+                        
+             </mat-form-field>
+            <br>
+       <div class="example-button-row">
+            <button mat-raised-button color="primary"  (click)="createLyspaerer()">Send</button>
+      </div>
+</form> -->
+</div>
+
+
+</ng-template>
+
 

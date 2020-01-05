@@ -1,0 +1,207 @@
+<div *ngIf="auth.user$ | async; then authenticated else guest">
+    <!-- template will replace this div -->
+</div>
+
+<ng-template #authenticated>
+    <div *ngIf="auth.user$">
+      
+
+
+<p></p>
+
+<mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Harryhandel     
+                </mat-panel-title>
+                <mat-panel-description>
+                  
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div *ngIf="!newitem" class="addbutton">
+              <button  (click)="newitem=true" mat-raised-button color="primary"><mat-icon>add</mat-icon></button>
+            </div>
+           <div *ngIf="newitem">
+       
+            <form class="example-form" [formGroup]="validateHarryhandel">
+                <mat-form-field>
+                            <input matInput formControlName="varenavn" placeholder="Varenavn"> 
+                
+                 </mat-form-field>
+               
+               
+      
+              
+                
+           <div class="example-button-row">
+              <button mat-raised-button  (click)="newitem=false">Avbryt</button> &nbsp;
+                <button mat-raised-button color="primary"  (click)="newitem=false;createHarryhandel()" [disabled]="!validateHarryhandel.valid">Legg til</button>
+          </div>
+    </form>
+  </div>
+  <br>
+
+<div *ngFor = "let harry of varer">
+
+<mat-card class="example-card">
+   
+            <mat-card-header>
+              
+           
+            </mat-card-header>
+            
+            <mat-card-content>
+              <p>
+                        
+                       
+                        <p>
+                            <div class="varetekst" *ngIf=!edit>     
+                           
+                        
+                              <h4 class="headline"> {{harry.varenavn}} </h4>
+                        Antall på lager: {{harry.antall_lager}} av {{harry.antall_skal_ha}} ( <span *ngIf="harry.antall_balanse > -1 ">
+                                
+                          +
+                        
+                        </span> 
+                         <span *ngIf="harry.antall_balanse < 0"> 
+                           
+                            <font color="red"> {{harry.antall_balanse}}</font>
+                          </span>
+                          <span *ngIf="harry.antall_balanse > -1">   
+                             {{harry.antall_balanse}}
+                            </span>)
+                 
+                         
+                         
+                     
+                               
+                                    <span class="editbutton" *ngIf=!edit>
+                                      <button mat-button (click)="editFields(harry.DocID)"><mat-icon >edit</mat-icon></button>
+                                    </span>
+                       
+                      </div>
+                    
+            
+            
+            </mat-card-content>
+           
+                     
+            <mat-card-actions>
+                     
+                        <div *ngIf=edit>
+                              
+                        
+                             <div *ngIf="checkDocID==harry.DocID"> 
+                                <form class="example-form" [formGroup]="validateHarryhandel">
+                                            <mat-form-field>
+                                                        <input matInput formControlName="varenavn" placeholder="Navn på varen" value="{{harry.varenavn}}"> 
+                                                        
+                                            </mat-form-field>
+                                      
+                                          
+                                            
+                                            <table>
+                                              <tr>
+                                                <td>
+                                            <mat-label>Antall: {{harry.antall_lager}}</mat-label>
+                                                </td>
+                                                
+                                              <mat-label> 
+                                                 <td>
+                                                <button mat-button (click)="changeAntall(harry.DocID,'remove',harry.antall_lager,harry.antall_skal_ha)"><mat-icon >remove</mat-icon></button>
+                                              </td>
+                                              <td>
+                                                <button mat-button (click)="changeAntall(harry.DocID,'add',harry.antall_lager,harry.antall_skal_ha)"><mat-icon>add</mat-icon></button>
+                                              </td>     
+                                              </mat-label>
+                                              </tr>
+                                            <tr>
+                                              <td>
+                                            
+                                                  <mat-label> Skal ha: {{harry.antall_skal_ha}}</mat-label>
+                                              </td>
+                                              <mat-label> 
+                                              <td>  
+                                                <button mat-button (click)="changeAntallSkalHa(harry.DocID,'remove',harry.antall_lager,harry.antall_skal_ha)"><mat-icon sizd="5">remove</mat-icon></button>
+                                              </td>
+                                              <td>
+                                                <button mat-button (click)="changeAntallSkalHa(harry.DocID,'add',harry.antall_lager,harry.antall_skal_ha)"><mat-icon>add</mat-icon></button>
+                                              </td>     
+                                            </mat-label> 
+                                           </tr>
+                                            </table>
+                                            <br>
+                                           <mat-label>
+                                                 Balanse: 
+                                                 <span *ngIf="harry.antall_balanse > -1 ">
+                                                   +
+                                                 </span>
+                                                        {{harry.antall_balanse}}
+                                                
+                                              </mat-label>
+                                            <br>
+                                          
+                                            
+                                      
+                                          
+                                            <br>
+                                          <button type="submit" value="submit" mat-button (click)="editFields();updateVarer(harry.DocID,harry.varenavn)"><mat-icon>save</mat-icon></button>
+<!--                                           <button type="submit" value="submit" mat-button (click)="editFields();update2(harry.DocID)"><mat-icon>save</mat-icon></button>
+ -->                                      
+                                </form>
+                                <p></p>
+                                
+                              </div>
+                              <div *ngIf="checkDocID==harry.DocID"> 
+                                  <div *ngIf="!edit"> 
+                                <button mat-button (click)="editFields() "><mat-icon >edit</mat-icon></button>
+                                  </div>
+                              </div>
+                              
+                          </div>   
+                           
+                      </mat-card-actions>
+          </mat-card>
+          <p>
+     
+   
+    
+
+</div>
+
+<p></p>
+<p></p>
+
+
+</mat-expansion-panel>
+</mat-accordion>
+<!-- <form class="example-form" [formGroup]="validateLyspaerer">
+            <mat-form-field>
+                        <input matInput formControlName="type" placeholder="Type lyspære"> 
+            
+             </mat-form-field>
+             <br>
+             <mat-form-field>
+                        <input matInput formControlName="teknologi" placeholder="LED eller hallogen"> 
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                        <input matInput formControlName="watt" placeholder="Antall watt"> 
+                        
+             </mat-form-field>
+            <br>
+            <mat-form-field>
+                        <input matInput formControlName="bildeurl" placeholder="URL til bilde"> 
+                        
+             </mat-form-field>
+            <br>
+       <div class="example-button-row">
+            <button mat-raised-button color="primary"  (click)="createLyspaerer()">Send</button>
+      </div>
+</form> -->
+</div>
+
+
+</ng-template>
